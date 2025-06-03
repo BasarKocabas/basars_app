@@ -186,7 +186,7 @@ class _HomePageState extends State<HomePage>{
             appBar: AppBar(
               backgroundColor: Colors.black54,
               automaticallyImplyLeading: false,
-              title: Text("BasarSAPP",style: TextStyle(fontWeight: FontWeight.w700,color: Colors.green.shade400,fontSize: 25),),
+              title: Text("BasarsAPP",style: TextStyle(fontWeight: FontWeight.w700,color: Colors.green.shade400,fontSize: 25),),
               actions: [
                   IconButton(
                     onPressed: () {
