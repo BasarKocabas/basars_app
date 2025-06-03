@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "277360264120",
+    "project_id": "basarsapp",
+    "storage_bucket": "basarsapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277360264120:android:134ef20f07036a58dc054d",
+        "android_client_info": {
+          "package_name": "com.example.basar_sap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCHDAaFR0e7r3EBa2Ppni7NaXcfozpIaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277360264120:android:c88eb765ad60af64dc054d",
+        "android_client_info": {
+          "package_name": "com.example.basars_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCHDAaFR0e7r3EBa2Ppni7NaXcfozpIaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
