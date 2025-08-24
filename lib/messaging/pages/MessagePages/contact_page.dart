@@ -1,10 +1,11 @@
-import 'package:basars_app/messaging/pages/base_message_page.dart';
 import 'package:basars_app/messaging/widgets/contact_views/contact_view.dart';
 import 'package:basars_app/messaging/widgets/messaging_views/messaging_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/message_input_field.dart';
+import '../../widgets/message_input_field.dart';
+import 'base_message_page.dart';
+
 
 class ContactPage extends BaseMessagePage{
 

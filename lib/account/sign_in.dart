@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'create_account.dart';
-import '../home_page.dart';
+import '../messaging/pages/home_page.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});

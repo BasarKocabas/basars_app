@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../message_box.dart';
@@ -20,9 +22,43 @@ class MessagingView extends StatelessWidget {
 
 
 
+  SizedBox isSpacer(String sender, String oldSender){
+    if (oldSender != sender && oldSender.isNotEmpty) return const SizedBox(height: 15);
+    return SizedBox(height: 0);
+  }
+
+  Widget displayDate(String oldDate, String date, String today){
+    if(oldDate == "" || oldDate != date){
+      String currentDate = date;
+      if(date == today) currentDate = "Bugün";
+      else if(date == "${today.substring(0,8)}${int.parse(today.substring(8))-1}") currentDate = "Dün";
+      return Card(
+          color: Colors.black26,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          child: SizedBox(
+              width: 120,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(currentDate,style: TextStyle(color: Colors.grey,fontSize: 16),),
+                  SizedBox(width: 5,),
+                  Icon(Icons.arrow_downward,size: 15, color: Colors.grey,)
+                ],
+              ))
+      );
+    }
+    return SizedBox();
+
+  }
+
   ListView buildMessageList(List<QueryDocumentSnapshot> messages) {
     List<Widget> messageBoxes = [];
     String oldSender = "";
+
+    Timestamp ts;
+    String oldDate = "";
+    List<String> dateNtime;
+    String today = Timestamp.now().toDate().toString().split(" ")[0];
 
     for (var message in messages) {
       var data = message.data() as Map<String, dynamic>;
@@ -31,18 +67,17 @@ class MessagingView extends StatelessWidget {
 
       MainAxisAlignment alignment = isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start;
 
-      SizedBox spacer = const SizedBox(height: 0);
-      if (oldSender != sender) {
-        if (oldSender.isNotEmpty) {
-          spacer = const SizedBox(height: 15);
-        }
-        oldSender = sender;
-      }
+      SizedBox spacer = isSpacer(sender, oldSender);
+      oldSender = sender;
+
+      ts = data['timeStamp'] ?? Timestamp.now();
+      dateNtime = ts.toDate().toString().split(" ");
 
       messageBoxes.add(
         Column(
           children: [
             spacer,
+            displayDate(oldDate, dateNtime[0], today),
             Row(
               mainAxisAlignment: alignment,
               children: [
@@ -54,7 +89,7 @@ class MessagingView extends StatelessWidget {
                       style: const TextStyle(fontSize: 16),
                       softWrap: true,
                     ),
-                    timeStamp: data['timeStamp'] ?? Timestamp.now(),
+                    time: dateNtime[1],
                 ),
                 if (!isCurrentUser) const SizedBox(width: 50),
               ],
@@ -62,6 +97,7 @@ class MessagingView extends StatelessWidget {
           ],
         ),
       );
+      oldDate = dateNtime[0];
     }
 
     return ListView(

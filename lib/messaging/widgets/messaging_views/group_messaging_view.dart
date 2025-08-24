@@ -15,7 +15,6 @@ class GroupMessagingView extends MessagingView{
   });
 
   final ValueNotifier<Map<String, String>> usernames = ValueNotifier({});
-
   Future<void> fetchUsername(String sender) async {
     if (usernames.value.containsKey(sender)) return; // Username already fetched
 
@@ -36,6 +35,9 @@ class GroupMessagingView extends MessagingView{
   ListView buildMessageList(List<QueryDocumentSnapshot> messages) {
     List<Widget> messageBoxes = [];
     String oldSender = "";
+    Timestamp ts;
+    String oldDate = "";
+    List<String> dateNtime;
 
     for (var message in messages) {
       var data = message.data() as Map<String, dynamic>;
@@ -44,18 +46,19 @@ class GroupMessagingView extends MessagingView{
 
       MainAxisAlignment alignment = isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start;
 
-      SizedBox spacer = const SizedBox(height: 0);
-      if (oldSender != sender) {
-        if (oldSender.isNotEmpty) {
-          spacer = const SizedBox(height: 15);
-        }
-        oldSender = sender;
-      }
+      SizedBox spacer = isSpacer(sender, oldSender);
+      oldSender = sender;
+
+      ts = data['timeStamp'] ?? Timestamp.now();
+      dateNtime = ts.toDate().toString().split(" ");
+      String today = Timestamp.now().toDate().toString().split(" ")[0];
+
 
       messageBoxes.add(
         Column(
           children: [
             spacer,
+            displayDate(oldDate, dateNtime[0], today),
             Row(
               mainAxisAlignment: alignment,
               children: [
@@ -77,7 +80,7 @@ class GroupMessagingView extends MessagingView{
                         style: const TextStyle(fontSize: 16),
                         softWrap: true,
                       ),
-                      timeStamp: data['timeStamp'] ?? Timestamp.now(),
+                      time: dateNtime[1],
                     );
                   },
                 ),
@@ -87,6 +90,8 @@ class GroupMessagingView extends MessagingView{
           ],
         ),
       );
+      oldDate = dateNtime[0];
+
     }
 
     return ListView(

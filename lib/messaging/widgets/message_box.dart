@@ -1,26 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-String formatTimeManually(DateTime time) { //chatgpt den alınma
-  int hour = time.hour;
-  int minute = time.minute;
-  String period = hour >= 12 ? "PM" : "AM";
-  // Convert to 12-hour format
-  hour = hour % 12;
-  if (hour == 0) hour = 12; // Handle midnight and noon
-  // Add leading zero to minutes if necessary
-  String minuteStr = minute < 10 ? "0$minute" : "$minute";
-  return "$hour:$minuteStr $period";
-}
 
-
-class MessageBox extends StatelessWidget{
+class MessageBox extends StatefulWidget{
 
   final Widget content;
-  final Timestamp timeStamp;
+  final String time;
   final String name;
 
-  const MessageBox({super.key, required this.name,  required this.content, required this.timeStamp});
+  const MessageBox({super.key, required this.name,  required this.content, required this.time});
+
+  @override
+  State<MessageBox> createState() => _MessageBoxState();
+}
+
+class _MessageBoxState extends State<MessageBox> {
 
 
   @override
@@ -36,19 +30,21 @@ class MessageBox extends StatelessWidget{
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              name != "" ? Text(name,style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500, color: Colors.black),): SizedBox(),
+              widget.name != "" ? Text(widget.name,style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w500, color: Colors.black),): SizedBox(),
               Row( // Use Row instead of Column
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end, // Align text and time
                 children: [
                   Flexible( // Ensures text wraps properly
-                    child: content,
+                    child: widget.content,
                   ),
                   const SizedBox(width: 12), // Space between text and time
                   Text(
-                    formatTimeManually(timeStamp.toDate()),
+                    widget.time.substring(0,5),
                     style: TextStyle(fontSize: 10, color: Colors.grey.shade700),
                   ),
+                  const SizedBox(width: 4,),
+                  Icon(Icons.remove_red_eye_outlined, color: Colors.grey,size: 17)
                 ],
               ),
             ],
